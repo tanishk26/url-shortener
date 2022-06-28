@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>URL Shorten</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" /> -->
+</head>
+<body>
+    <header>
+    <%- include('./partials/header'); %>
+    </header>
+  <div class="container">
+
+    <form action="/analyse" method="POST" class="my-4 form-inline">
+      <label for="fullUrl" class="sr-only">Enter Full Url</label>
+      <input required placeholder="Enter Full Url" type="url" name="analyseURL" id="analyseURL" class="form-control col mr-2">
+      <button class="btn btn-primary" type="submit">Analyse</button>
+    </form>
+      <% if(result.length !== 0){ %>
+        <h3>Visits in the last 24 hours and sources of visits</h3>
+        <div class="row justify-centent-center">
+          <div class="col-12 col-md-6 col-lg-5 mx-auto ">
+              <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        </div>
+        <div class="row justify-centent-center">
+          <div class="col-12 col-md-6 col-lg-5 mx-auto ">
+              <canvas id="srcChart" width="400" height="400"></canvas>
+        </div>
+        </div>
+     <% }%>
+        <!-- <h3>Clicks in last 24 hours</h3>
+        <div class="row justify-centent-center">
+        <div class="col-12 col-md-6 col-lg-5 mx-auto ">
+        <canvas id="myChart" width="600" height="400"></canvas>  
+        </div>
+        </div> -->
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity="sha512-G8JE1Xbr0egZE5gNGyUm1fF764iHVfRXshIoUWCTPAbKkkItp/6qal5YAHXrxEu4HNfPTQs6HOu3D5vCGS1j3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha512-QEiC894KVkN9Tsoi6+mKf8HaCLJvyA6QIRzY5KrfINXYuP9NxdIkRQhGq3BZi0J4I7V5SidGM3XUQ5wFiMDuWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <% if(result.length !== 0){ %>
+    <script>
+      const ctx = document.getElementById('myChart').getContext('2d');
+  const myC = new Chart(ctx, {
+      type: 'line',
+      data: {
+          datasets: [{
+              label: '# of Visits',
+              data: '<%= cnt %>',
+              fill: false,
+                        backgroundColor: "#eebcde ",
+                        borderColor: "#eebcde",
+                        borderCapStyle: 'butt',
+                        borderDash: [5, 5],
+          }]
+      },
+      options: {  
+      responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
+                hover: {
+                    mode: 'label'
+                }
+              }
+  });
+    const ct = document.getElementById('srcChart').getContext('2d');
+    const myCt = new Chart(ct,{
+      type: 'doughnut',
+      data: {
+        labels : ['Total', 'Facebook', 'Instagram', 'Youtube'],  
+        datasets: [{
+          label: 'Visits Distribution',
+          data: '<%= srcArr %>',
+          backgroundColor: [
+                                'rgba(66, 103, 178, 1)',
+                                '#833AB4',
+                                '#FF0000',
+                                '#405DE6'
+                            ],
+        }]
+      }
+    });
+    </script>
+  <% } %>
+       
+</body>
+</html>
+
+<!-- 
+,
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      } -->
+
+
