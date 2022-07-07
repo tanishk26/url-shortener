@@ -6,7 +6,7 @@ const app = express()
 const useragent = require('express-useragent');
 app.use(useragent.express());
 
-mongoose.connect('mongodb://localhost/urlShortener',  {
+mongoose.connect('mongodb://127.0.0.1/urlShortener',  {
     useNewUrlParser: true, useUnifiedTopology: true
 })
 app.set('view engine', 'ejs');
