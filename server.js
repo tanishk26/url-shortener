@@ -3,10 +3,11 @@ const mongoose = require('mongoose')
 const ShortUrl = require('./models/shortUrl')
 const StoreClicks = require('./models/storeClicks')
 const app = express()
+require('dotenv').config(); //for setting environment variables on server
 const useragent = require('express-useragent');
 app.use(useragent.express());
 
-mongoose.connect('mongodb://localhost/urlShortener',  {
+mongoose.connect(process.env.MONGOURL,  {
     useNewUrlParser: true, useUnifiedTopology: true
 })
 app.set('view engine', 'ejs');
