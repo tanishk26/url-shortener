@@ -7,11 +7,7 @@ require('dotenv').config(); //for setting environment variables on server
 const useragent = require('express-useragent');
 app.use(useragent.express());
 
-<<<<<<< HEAD
 mongoose.connect(process.env.MONGOURL,  {
-=======
-mongoose.connect('mongodb://127.0.0.1/urlShortener',  {
->>>>>>> 25c1a36a196d19a58fcfd743a2d349292827d5ff
     useNewUrlParser: true, useUnifiedTopology: true
 })
 app.set('view engine', 'ejs');
